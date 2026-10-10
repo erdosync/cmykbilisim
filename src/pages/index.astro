@@ -1,0 +1,211 @@
+---
+import Base from '../layouts/Base.astro';
+import ModelSearch from '../components/ModelSearch.astro';
+import ProductCard from '../components/ProductCard.astro';
+import ProductArt from '../components/ProductArt.astro';
+import BrandTile from '../components/BrandTile.astro';
+import Icon from '../components/Icon.astro';
+import { PRODUCTS, brandsWithCounts, categoriesWithCounts, brandName } from '../lib/products';
+import { SITE, whatsappLink } from '../data/site';
+
+const featured = PRODUCTS.filter((p) => p.featured).slice(0, 8);
+const categories = categoriesWithCounts();
+const brands = brandsWithCounts();
+
+// Arama kutusundaki örnekler: öne çıkan ürünlerin ilk uyumlu modelleri
+const examples = [
+  ...new Set(featured.flatMap((p) => p.compatible.slice(0, 1).map((g) => g.models[0])).filter(Boolean)),
+].slice(0, 3);
+---
+
+<Base>
+  <section class="hero">
+    <div class="wrap hero-inner">
+      <h1>Yazıcınızın modelini yazın, uyumlu toneri bulalım</h1>
+      <p class="lede">
+        HP, Canon, Brother, Epson ve diğer {brands.length - 4} marka için toner, kartuş, drum ve şerit.
+        Ankara'dan ofislere ve kurumlara.
+      </p>
+      <ModelSearch size="hero" examples={examples} />
+    </div>
+  </section>
+
+  <section class="section cats" aria-labelledby="cats-h">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <h2 id="cats-h">Ürün grupları</h2>
+          <p>Yazıcınızın ihtiyaç duyduğu sarf malzemesini gruba göre inceleyin.</p>
+        </div>
+        <a class="btn btn-line" href="/urunler">Tüm ürünler</a>
+      </div>
+      <ul class="cat-list">
+        {categories.map((c) => (
+          <li>
+            <a href={`/kategori/${c.slug}`} class="cat">
+              <span class="cat-art"><ProductArt category={c.slug} color="siyah" /></span>
+              <span class="cat-text">
+                <span class="cat-name">{c.name}</span>
+                <span class="cat-sum">{c.summary}</span>
+                {c.brands.length > 0 && <span class="cat-brands">{c.brands.map(brandName).join(', ')}</span>}
+              </span>
+              {c.count > 0 ? (
+                <span class="cat-count">{c.count}<small> ürün</small></span>
+              ) : (
+                <span class="cat-ask">Bilgi alın</span>
+              )}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section brands" aria-labelledby="brands-h">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <h2 id="brands-h">Çalıştığımız markalar</h2>
+          <p>Orijinal ve muadil sarf malzemelerini markanıza göre listeleyin.</p>
+        </div>
+      </div>
+      <div class="brand-grid">
+        {brands.map((b) => <BrandTile slug={b.slug} name={b.name} count={b.count || undefined} />)}
+      </div>
+    </div>
+  </section>
+
+  {featured.length > 0 && (
+    <section class="section" aria-labelledby="feat-h">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 id="feat-h">Sık sorulan ürünler</h2>
+          <a class="btn btn-line" href="/urunler">Tüm ürünler</a>
+        </div>
+        <div class="grid-products">
+          {featured.map((p) => <ProductCard product={p} />)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="section how" aria-labelledby="how-h">
+    <div class="wrap how-inner">
+      <h2 id="how-h">Sipariş nasıl verilir?</h2>
+      <ol class="steps">
+        <li>
+          <h3>Ürünü bulun</h3>
+          <p>Yazıcı modelinizle arayın ya da ürün gruplarına göz atın. Her ürün sayfasında uyumlu yazıcıların listesi var.</p>
+        </li>
+        <li>
+          <h3>Bize sorun</h3>
+          <p>Ürün sayfasındaki WhatsApp butonuna basın; mesajınız ürün adıyla hazır gelir. Fiyat ve stok bilgisini size iletelim.</p>
+        </li>
+        <li>
+          <h3>Siparişinizi verin</h3>
+          <p>Kurumsal alımlarda faturalı satış yapıyoruz. Toplu ve düzenli siparişler için teklif hazırlayalım.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <div class="ask">
+      <div>
+        <h2>Aradığınız ürünü bulamadınız mı?</h2>
+        <p>Yazıcınızın modelini ya da tonerin üzerindeki kodu gönderin, uygun ürünü sizin için bulalım.</p>
+      </div>
+      <div class="ask-actions">
+        <a class="btn btn-wa" href={whatsappLink('Merhaba, yazıcım için uygun ürünü bulmak istiyorum. Yazıcı modelim: ')} target="_blank" rel="noopener">
+          <Icon name="whatsapp" />WhatsApp'tan yazın
+        </a>
+        <a class="btn btn-line" href={SITE.phoneHref}><Icon name="phone" />{SITE.phone}</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* Hero: yarı ton (raster) nokta deseni baskı dünyasına gönderme */
+  .hero {
+    position: relative;
+    z-index: 2; /* arama sonuçları alttaki bölümlerin üstünde açılsın */
+    padding-block: clamp(56px, 9vw, 120px) clamp(48px, 7vw, 96px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .hero::after {
+    content: '';
+    position: absolute; inset: 0 0 0 auto; width: min(560px, 55%);
+    background:
+      radial-gradient(circle, var(--c) 0 3.2px, transparent 3.6px) 0 0 / 22px 22px,
+      radial-gradient(circle, var(--m) 0 2.6px, transparent 3px) 11px 11px / 22px 22px;
+    -webkit-mask-image: radial-gradient(circle at 85% 40%, #000 0, transparent 70%);
+    mask-image: radial-gradient(circle at 85% 40%, #000 0, transparent 70%);
+    opacity: .5;
+    pointer-events: none;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .hero h1 { max-width: 21ch; }
+  .lede { margin-top: 20px; font-size: clamp(18px, 2vw, 21px); color: var(--ink-2); max-width: 54ch; }
+  .hero :global(.msearch) { margin-top: 36px; max-width: 760px; }
+
+  .cat-list {
+    list-style: none; margin: 0; padding: 0;
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    border-top: 1px solid var(--rule);
+  }
+  .cat-list li { border-bottom: 1px solid var(--rule); }
+  .cat-list li:nth-child(odd) { border-right: 1px solid var(--rule); }
+  .cat {
+    display: grid; grid-template-columns: 112px 1fr auto; align-items: center; gap: 20px;
+    padding: 20px 24px 20px 4px;
+    color: var(--ink); text-decoration: none;
+  }
+  .cat-list li:nth-child(even) .cat { padding-left: 24px; }
+  .cat:hover { background: var(--paper-2); color: var(--ink); }
+  .cat-art { background: var(--paper-2); border-radius: 8px; padding: 6px 10px; }
+  .cat:hover .cat-art { background: var(--paper); }
+  .cat-text { display: flex; flex-direction: column; gap: 2px; }
+  .cat-name { font-family: var(--font-display); font-weight: 700; font-size: 20px; }
+  .cat-sum { color: var(--ink-2); font-size: 16px; }
+  .cat-brands { color: var(--ink-3); font-size: 14px; }
+  .cat-count {
+    font-family: var(--font-display); font-weight: 800; font-size: 26px; color: var(--ink);
+    font-variant-numeric: tabular-nums; white-space: nowrap;
+  }
+  .cat-count small { font-size: 14px; font-weight: 600; color: var(--ink-3); }
+  .cat-ask { font-size: 15px; font-weight: 600; color: var(--link); white-space: nowrap; }
+
+  .brands { background: var(--paper-2); }
+  .brand-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 16px; }
+
+  .how-inner { display: grid; grid-template-columns: 1fr 2.4fr; gap: 40px; align-items: start; }
+  .steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; counter-reset: step; }
+  .steps li { counter-increment: step; border-top: 4px solid; padding-top: 18px; }
+  .steps li:nth-child(1) { border-color: var(--c); }
+  .steps li:nth-child(2) { border-color: var(--m); }
+  .steps li:nth-child(3) { border-color: var(--y); }
+  .steps h3::before { content: counter(step) '. '; }
+  .steps p { margin-top: 8px; color: var(--ink-2); font-size: 17px; }
+
+  .ask {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px 40px;
+    padding: clamp(28px, 4vw, 48px);
+    border: 2px solid var(--ink); border-radius: 16px;
+  }
+  .ask h2 { font-size: clamp(22px, 2.6vw, 30px); }
+  .ask p { margin-top: 8px; color: var(--ink-2); max-width: 52ch; }
+  .ask-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+
+  @media (max-width: 860px) {
+    .cat-list { grid-template-columns: 1fr; }
+    .cat-list li:nth-child(odd) { border-right: 0; }
+    .cat-list li:nth-child(even) .cat { padding-left: 4px; }
+    .how-inner { grid-template-columns: 1fr; }
+    .steps { grid-template-columns: 1fr; gap: 24px; }
+  }
+  @media (max-width: 520px) {
+    .cat { grid-template-columns: 76px 1fr auto; gap: 14px; padding-right: 8px; }
+    .hero::after { width: 100%; opacity: .25; }
+  }
+</style>

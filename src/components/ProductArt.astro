@@ -1,0 +1,121 @@
+---
+// Kategoriye özel sade ürün çizimi; vurgu rengi ürün rengini gösterir.
+import { categoryBySlug } from '../data/categories';
+
+interface Props {
+  category: string;
+  color: string | null;
+  label?: string;
+}
+const { category, color, label } = Astro.props;
+const icon = categoryBySlug(category)?.icon ?? 'toner';
+
+const SOLID: Record<string, string> = {
+  siyah: '#1A1A1A',
+  cyan: '#00AEEF',
+  magenta: '#EC008C',
+  sari: '#FFD200',
+};
+const multi = color === 'renkli' || color === 'uc-renk';
+// Aynı sayfada tekrar etse de tanımlar birebir aynı olduğu için sabit id yeterli
+const uid = 'cmy-bands';
+const accent = multi ? `url(#${uid})` : SOLID[color ?? ''] ?? '#00AEEF';
+// Siyah ürünlerde koyu gövde üstünde bant görünsün diye açık kenar çizgisi
+const edge = color === 'siyah' ? '#5A606A' : 'none';
+
+const BODY = '#2B2F36';
+const BODY_2 = '#3B4048';
+const PAPER = '#F3F4F6';
+const LINE = '#B9BEC6';
+---
+
+<svg viewBox="0 0 240 180" role="img" aria-label={label ?? ''} class="art">
+  {multi && (
+    <defs>
+      <linearGradient id={uid} x1="0" x2="1" y1="0" y2="0">
+        <stop offset="0" stop-color="#00AEEF" /><stop offset=".333" stop-color="#00AEEF" />
+        <stop offset=".333" stop-color="#EC008C" /><stop offset=".666" stop-color="#EC008C" />
+        <stop offset=".666" stop-color="#FFD200" /><stop offset="1" stop-color="#FFD200" />
+      </linearGradient>
+    </defs>
+  )}
+
+  {icon === 'toner' && (
+    <g>
+      <path d="M48 70q8-24 32-24h80q24 0 32 24z" fill={BODY_2} />
+      <rect x="28" y="66" width="184" height="60" rx="10" fill={BODY} />
+      <rect x="40" y="78" width="12" height="36" rx="3" fill={accent} stroke={edge} />
+      <rect x="98" y="80" width="70" height="32" rx="4" fill={PAPER} />
+      <rect x="107" y="89" width="34" height="4" rx="2" fill={LINE} />
+      <rect x="107" y="98" width="50" height="4" rx="2" fill={LINE} />
+      <rect x="42" y="126" width="156" height="12" rx="6" fill="#13795A" />
+    </g>
+  )}
+
+  {icon === 'ink' && (
+    <g>
+      <rect x="82" y="34" width="76" height="104" rx="9" fill={BODY} />
+      <rect x="91" y="48" width="58" height="44" rx="5" fill={accent} stroke={edge} />
+      <rect x="99" y="106" width="42" height="18" rx="2" fill="#C9A227" />
+      <path d="M106 106v18M113 106v18M120 106v18M127 106v18M134 106v18" stroke="#9C7C14" stroke-width="2" />
+      <rect x="108" y="138" width="24" height="8" rx="2" fill={BODY_2} />
+    </g>
+  )}
+
+  {icon === 'copier' && (
+    <g>
+      <rect x="22" y="66" width="196" height="50" rx="25" fill={BODY} />
+      <path d="M44 72v38M54 72v38M64 72v38" stroke={BODY_2} stroke-width="4" />
+      <rect x="80" y="78" width="84" height="26" rx="4" fill={PAPER} />
+      <rect x="89" y="86" width="40" height="4" rx="2" fill={LINE} />
+      <rect x="89" y="94" width="58" height="4" rx="2" fill={LINE} />
+      <rect x="178" y="70" width="36" height="42" rx="14" fill={accent} stroke={edge} />
+    </g>
+  )}
+
+  {icon === 'drum' && (
+    <g>
+      <rect x="26" y="78" width="22" height="28" rx="4" fill={BODY} />
+      <rect x="192" y="78" width="22" height="28" rx="4" fill={BODY} />
+      <rect x="44" y="70" width="152" height="44" rx="22" fill="#13795A" />
+      <rect x="60" y="78" width="120" height="6" rx="3" fill="#FFFFFF" opacity=".28" />
+      <rect x="206" y="84" width="10" height="16" rx="2" fill={accent} stroke={edge} />
+    </g>
+  )}
+
+  {icon === 'fuser' && (
+    <g>
+      <rect x="24" y="62" width="192" height="58" rx="8" fill={BODY} />
+      <rect x="36" y="74" width="120" height="6" rx="3" fill={BODY_2} />
+      <rect x="36" y="98" width="168" height="16" rx="8" fill="#D39B3A" />
+      <rect x="194" y="70" width="16" height="22" rx="2" fill={accent} stroke={edge} />
+    </g>
+  )}
+
+  {icon === 'ribbon' && (
+    <g>
+      <rect x="34" y="54" width="172" height="74" rx="10" fill={BODY} />
+      <circle cx="78" cy="91" r="20" fill={BODY_2} />
+      <circle cx="78" cy="91" r="7" fill={BODY} />
+      <rect x="118" y="78" width="70" height="26" rx="4" fill={PAPER} />
+      <rect x="126" y="87" width="40" height="4" rx="2" fill={LINE} />
+      <path d="M58 128h124v10H58z" fill="#111" />
+      <rect x="182" y="64" width="14" height="14" rx="3" fill={accent} stroke={edge} />
+    </g>
+  )}
+
+  {icon === 'printer' && (
+    <g>
+      <rect x="72" y="36" width="96" height="44" rx="2" fill="#FFFFFF" stroke="#D5D8DD" stroke-width="2" />
+      <rect x="84" y="48" width="56" height="4" rx="2" fill={LINE} />
+      <rect x="84" y="58" width="40" height="4" rx="2" fill={LINE} />
+      <rect x="38" y="72" width="164" height="62" rx="12" fill={BODY} />
+      <rect x="62" y="122" width="116" height="22" rx="3" fill={PAPER} />
+      <rect x="160" y="86" width="28" height="8" rx="4" fill={accent} stroke={edge} />
+    </g>
+  )}
+</svg>
+
+<style>
+  .art { width: 100%; height: auto; }
+</style>

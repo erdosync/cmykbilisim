@@ -1,0 +1,544 @@
+[
+  {
+    "slug": "brother-tn-1040-orijinal-toner",
+    "name": "Brother TN-1040 Orijinal Toner",
+    "brand": "brother",
+    "category": "toner",
+    "subcategory": "orijinal-toner",
+    "code": "TN-1040",
+    "type": "orijinal",
+    "color": "siyah",
+    "capacity": "1.000 sayfa",
+    "compatible": [
+      {
+        "series": "DCP",
+        "models": [
+          "DCP-1511"
+        ]
+      },
+      {
+        "series": "MFC",
+        "models": [
+          "MFC-1811",
+          "MFC-1815",
+          "MFC-1911W"
+        ]
+      },
+      {
+        "series": "HL",
+        "models": [
+          "HL-1111",
+          "HL-1211W"
+        ]
+      }
+    ],
+    "specs": {},
+    "description": "Brother TN-1040, HL-1111, DCP-1511 ve MFC-1811 gibi kompakt Brother lazer yazıcılar için üretilmiş orijinal siyah tonerdir. Ev ve küçük ofis kullanımında net ve düzenli siyah baskı sağlar.",
+    "featured": true
+  },
+  {
+    "slug": "brother-tn-2355-orijinal-toner-yuksek-kapasiteli",
+    "name": "Brother TN-2355 Orijinal Toner Yüksek Kapasiteli",
+    "brand": "brother",
+    "category": "toner",
+    "subcategory": "orijinal-toner",
+    "code": "TN-2355",
+    "type": "orijinal",
+    "color": "siyah",
+    "capacity": "2.600 sayfa",
+    "compatible": [
+      {
+        "series": "DCP-L",
+        "models": [
+          "DCP-L2500D",
+          "DCP-L2520DW",
+          "DCP-L2540DN",
+          "DCP-L2560CDN",
+          "DCP-L2560CDW",
+          "DCP-L2560DW",
+          "DCP-L2560DN",
+          "DCP-L2700DW"
+        ]
+      },
+      {
+        "series": "MFC-L",
+        "models": [
+          "MFC-L2700DN",
+          "MFC-L2700DW",
+          "MFC-L2720DW",
+          "MFC-L2740CW",
+          "MFC-L2740DW"
+        ]
+      },
+      {
+        "series": "HL-L",
+        "models": [
+          "HL-L2300D",
+          "HL-L2320D",
+          "HL-L2340DW",
+          "HL-L2360DN",
+          "HL-L2360DW",
+          "HL-L2365DW",
+          "HL-L2380DW"
+        ]
+      }
+    ],
+    "specs": {
+      "Kapasite Türü": "Yüksek kapasiteli"
+    },
+    "description": "Brother TN-2355, HL-L2300D, DCP-L2500D ve MFC-L2700DW gibi L2000 serisi Brother yazıcılarla uyumlu, yüksek kapasiteli orijinal siyah tonerdir. Yoğun baskı yapılan ofislerde toner değişim sıklığını azaltır.",
+    "featured": true
+  },
+  {
+    "slug": "brother-tn-261-magenta-orijinal-toner",
+    "name": "Brother TN-261 Magenta Orijinal Toner",
+    "brand": "brother",
+    "category": "toner",
+    "subcategory": "orijinal-toner",
+    "code": "TN-261",
+    "type": "orijinal",
+    "color": "magenta",
+    "capacity": "1.400 sayfa",
+    "compatible": [
+      {
+        "series": "DCP",
+        "models": [
+          "DCP-9020CDW"
+        ]
+      },
+      {
+        "series": "MFC",
+        "models": [
+          "MFC-9130CW",
+          "MFC-9140CDN",
+          "MFC-9330CDW",
+          "MFC-9340CDW"
+        ]
+      },
+      {
+        "series": "HL",
+        "models": [
+          "HL-3140CW",
+          "HL-3150CDN",
+          "HL-3150CDW",
+          "HL-3170CDW"
+        ]
+      }
+    ],
+    "specs": {
+      "Üretici Parça No": "TN-261M"
+    },
+    "description": "Brother TN-261 Magenta, HL-3140CW, DCP-9020CDW ve MFC-9330CDW gibi renkli Brother lazer yazıcılar için orijinal magenta tonerdir. Renkli belgelerde canlı ve tutarlı tonlar elde etmeye yardımcı olur.",
+    "featured": true
+  },
+  {
+    "slug": "brother-tn-3030-orijinal-toner",
+    "name": "Brother TN-3030 Orijinal Toner",
+    "brand": "brother",
+    "category": "toner",
+    "subcategory": "orijinal-toner",
+    "code": "TN-3030",
+    "type": "orijinal",
+    "color": "siyah",
+    "capacity": "3.500 sayfa",
+    "compatible": [
+      {
+        "series": "DCP",
+        "models": [
+          "DCP-8040",
+          "DCP-8045D",
+          "DCP-8045DN"
+        ]
+      },
+      {
+        "series": "MFC",
+        "models": [
+          "MFC-8220",
+          "MFC-8240",
+          "MFC-8240LT",
+          "MFC-8440",
+          "MFC-8440D",
+          "MFC-8440DN",
+          "MFC-8440LT",
+          "MFC-8440N",
+          "MFC-8640D",
+          "MFC-8840",
+          "MFC-8840D",
+          "MFC-8840DN",
+          "MFC-8840LT"
+        ]
+      },
+      {
+        "series": "HL",
+        "models": [
+          "HL-5100",
+          "HL-5130",
+          "HL-5140",
+          "HL-5140LT",
+          "HL-5140D",
+          "HL-5150",
+          "HL-5150D",
+          "HL-5150DLT",
+          "HL-5170",
+          "HL-5170DLT",
+          "HL-5170DN",
+          "HL-5170DNLT"
+        ]
+      }
+    ],
+    "specs": {},
+    "description": "Brother TN-3030, HL-5100/5150/5170, DCP-8040 ve MFC-8440/8840 serisi Brother lazer yazıcılarla uyumlu orijinal siyah tonerdir. Ofis tipi lazer yazıcılarda güvenilir siyah baskı sunar.",
+    "featured": false
+  },
+  {
+    "slug": "canon-crg-040-0460c001-siyah-orijinal-toner",
+    "name": "Canon CRG-040 / 0460C001 Siyah Orijinal Toner",
+    "brand": "canon",
+    "category": "toner",
+    "subcategory": "orijinal-toner",
+    "code": "CRG-040",
+    "type": "orijinal",
+    "color": "siyah",
+    "capacity": "6.300 sayfa",
+    "compatible": [
+      {
+        "series": "i-SENSYS LBP",
+        "models": [
+          "LBP-710Cx",
+          "LBP-712Cdn",
+          "LBP-712Cx"
+        ]
+      }
+    ],
+    "specs": {
+      "Üretici Parça No": "0460C001"
+    },
+    "description": "Canon CRG-040 Siyah, i-SENSYS LBP-710Cx ve LBP-712Cdn renkli lazer yazıcılar için geliştirilmiş orijinal siyah tonerdir. Keskin metin ve grafik baskıları için tasarlanmıştır.",
+    "featured": true
+  },
+  {
+    "slug": "canon-crg-041h-0453c002-orijinal-toner-yuksek-kapasiteli",
+    "name": "Canon CRG-041H / 0453C002 Orijinal Toner Yüksek Kapasiteli",
+    "brand": "canon",
+    "category": "toner",
+    "subcategory": "orijinal-toner",
+    "code": "CRG-041H",
+    "type": "orijinal",
+    "color": "siyah",
+    "capacity": "20.000 sayfa",
+    "compatible": [
+      {
+        "series": "i-SENSYS LBP",
+        "models": [
+          "LBP-312dn",
+          "LBP-312dnf",
+          "LBP-312x"
+        ]
+      },
+      {
+        "series": "i-SENSYS MF",
+        "models": [
+          "MF-522x",
+          "MF-525dw",
+          "MF-525x"
+        ]
+      }
+    ],
+    "specs": {
+      "Üretici Parça No": "0453C002",
+      "Kapasite Türü": "Yüksek kapasiteli"
+    },
+    "description": "Canon CRG-041H, i-SENSYS LBP-312 ve MF-522/525 serisi yazıcılarla uyumlu, yüksek kapasiteli orijinal siyah tonerdir. Yüksek baskı hacmine sahip iş yerleri için uygundur.",
+    "featured": true
+  },
+  {
+    "slug": "canon-crg-708-0266b002-orijinal-toner",
+    "name": "Canon CRG-708 / 0266B002 Orijinal Toner",
+    "brand": "canon",
+    "category": "toner",
+    "subcategory": "orijinal-toner",
+    "code": "CRG-708",
+    "type": "orijinal",
+    "color": "siyah",
+    "capacity": "2.500 sayfa",
+    "compatible": [
+      {
+        "series": "LBP (i-SENSYS / Laser Shot)",
+        "models": [
+          "LBP-3300",
+          "LBP-3360"
+        ]
+      }
+    ],
+    "specs": {
+      "Üretici Parça No": "0266B002"
+    },
+    "description": "Canon CRG-708, LBP-3300 ve LBP-3360 (i-SENSYS / Laser Shot) lazer yazıcılar için orijinal siyah tonerdir. Bu yazıcıların günlük ofis baskılarında kullanılır.",
+    "featured": false
+  },
+  {
+    "slug": "epson-al-c500-c13s050663-siyah-orijinal-toner",
+    "name": "Epson AL-C500 / C13S050663 Siyah Orijinal Toner",
+    "brand": "epson",
+    "category": "toner",
+    "subcategory": "orijinal-toner",
+    "code": "C13S050663",
+    "type": "orijinal",
+    "color": "siyah",
+    "capacity": null,
+    "compatible": [
+      {
+        "series": "WorkForce AL-C",
+        "models": [
+          "AL-C500DHN",
+          "AL-C500DN",
+          "AL-C500DTN",
+          "AL-C500DXN"
+        ]
+      }
+    ],
+    "specs": {
+      "Üretici Parça No": "C13S050663 (S050663)"
+    },
+    "description": "Epson C13S050663, WorkForce AL-C500DN ve türevi renkli lazer yazıcılar için orijinal siyah tonerdir. Kurumsal ortamlarda istikrarlı siyah baskı kalitesi sağlar.",
+    "featured": true
+  },
+  {
+    "slug": "epson-c2800-c13s051159-magenta-orijinal-toner-yuksek-kapasiteli",
+    "name": "Epson C2800 / C13S051159 Magenta Orijinal Toner Yüksek Kapasiteli",
+    "brand": "epson",
+    "category": "toner",
+    "subcategory": "orijinal-toner",
+    "code": "C13S051159",
+    "type": "orijinal",
+    "color": "magenta",
+    "capacity": "6.000 sayfa",
+    "compatible": [
+      {
+        "series": "AcuLaser C",
+        "models": [
+          "C2800",
+          "C2800DN",
+          "C2800DTN",
+          "C2800N"
+        ]
+      }
+    ],
+    "specs": {
+      "Üretici Parça No": "C13S051159 (S051159)",
+      "Kapasite Türü": "Yüksek kapasiteli"
+    },
+    "description": "Epson C13S051159, AcuLaser C2800 serisi renkli lazer yazıcılar için yüksek kapasiteli orijinal magenta tonerdir. Renkli çıktılarda daha uzun kullanım süresi sunar.",
+    "featured": false
+  },
+  {
+    "slug": "epson-c4200-c13s050245-siyah-orijinal-toner",
+    "name": "Epson C4200 / C13S050245 Siyah Orijinal Toner",
+    "brand": "epson",
+    "category": "toner",
+    "subcategory": "orijinal-toner",
+    "code": "C13S050245",
+    "type": "orijinal",
+    "color": "siyah",
+    "capacity": null,
+    "compatible": [
+      {
+        "series": "AcuLaser C",
+        "models": [
+          "C4200",
+          "C4200DN",
+          "C4200DTN",
+          "C4200DTNPC",
+          "C4200DNPC"
+        ]
+      }
+    ],
+    "specs": {
+      "Üretici Parça No": "C13S050245 (S050245)"
+    },
+    "description": "Epson C13S050245, AcuLaser C4200 serisi renkli lazer yazıcılarla uyumlu orijinal siyah tonerdir. Yüksek hacimli ofis baskıları için tasarlanmıştır.",
+    "featured": false
+  },
+  {
+    "slug": "konica-minolta-magicolor-1600w-a0v30ch-magenta-orijinal-toner-yuksek-kapasiteli",
+    "name": "Konica Minolta MagiColor 1600W / A0V30CH Magenta Orijinal Toner Yüksek Kapasiteli",
+    "brand": "konica-minolta",
+    "category": "toner",
+    "subcategory": "orijinal-toner",
+    "code": "A0V30CH",
+    "type": "orijinal",
+    "color": "magenta",
+    "capacity": "2.500 sayfa",
+    "compatible": [
+      {
+        "series": "MagiColor",
+        "models": [
+          "MagiColor 1600",
+          "MagiColor 1600W",
+          "MagiColor 1650E",
+          "MagiColor 1650END",
+          "MagiColor 1650ENDT",
+          "MagiColor 1680",
+          "MagiColor 1680M",
+          "MagiColor 1690M",
+          "MagiColor 1690MFD",
+          "MagiColor 1690MFDT"
+        ]
+      }
+    ],
+    "specs": {
+      "Kapasite Türü": "Yüksek kapasiteli"
+    },
+    "description": "Konica Minolta A0V30CH, MagiColor 1600W, 1650 ve 1690 serisi renkli lazer yazıcılar için yüksek kapasiteli orijinal magenta tonerdir. Renkli belge ve sunum baskılarında canlı sonuçlar verir.",
+    "featured": true
+  },
+  {
+    "slug": "konica-minolta-pagepro-1300w-4518512-orijinal-toner",
+    "name": "Konica Minolta PagePro 1300W / 4518512 Orijinal Toner",
+    "brand": "konica-minolta",
+    "category": "toner",
+    "subcategory": "orijinal-toner",
+    "code": "4518512",
+    "type": "orijinal",
+    "color": "siyah",
+    "capacity": null,
+    "compatible": [
+      {
+        "series": "PagePro",
+        "models": [
+          "PagePro 1300",
+          "PagePro 1300E",
+          "PagePro 1300W",
+          "PagePro 1350",
+          "PagePro 1350E",
+          "PagePro 1350W",
+          "PagePro 1380MF",
+          "PagePro 1390MF"
+        ]
+      }
+    ],
+    "specs": {},
+    "description": "Konica Minolta 4518512, PagePro 1300, 1350 ve 1380/1390MF serisi yazıcılarla uyumlu orijinal siyah tonerdir. Küçük ofislerdeki siyah-beyaz baskı ihtiyaçlarına yöneliktir.",
+    "featured": false
+  },
+  {
+    "slug": "lexmark-ms431dn-mx431adn-ms331dn-mx331adn-orijinal-toner",
+    "name": "Lexmark MS431dn / MX431adn / MS331dn / MX331adn Orijinal Toner",
+    "brand": "lexmark",
+    "category": "toner",
+    "subcategory": "orijinal-toner",
+    "code": "55B5H00",
+    "type": "orijinal",
+    "color": "siyah",
+    "capacity": "15.000 sayfa",
+    "compatible": [
+      {
+        "series": "MS",
+        "models": [
+          "MS331dn",
+          "MS431dn"
+        ]
+      },
+      {
+        "series": "MX",
+        "models": [
+          "MX331adn",
+          "MX431adn"
+        ]
+      }
+    ],
+    "specs": {
+      "Baskı Teknolojisi": "Siyah-beyaz lazer",
+      "Kapasite Standardı": "ISO/IEC 19752",
+      "Lexmark Kartuş Toplama Programı": "Evet",
+      "Not": "Bölgeye özel kartuş",
+      "Üretici Parça No": "55B5H00",
+      "Kapasite Türü": "Yüksek kapasiteli",
+      "Paket Boyutu (Y x G x D)": "160 x 170 x 370 mm",
+      "Paket Ağırlığı": "1,18 kg"
+    },
+    "description": "Lexmark 55B5H00, MS331dn, MS431dn, MX331adn ve MX431adn siyah-beyaz lazer yazıcılar için yüksek verimli orijinal siyah tonerdir. Lexmark kartuş geri toplama programı kapsamındadır.",
+    "featured": true
+  },
+  {
+    "slug": "lexmark-ms810dn-ms811dn-mx711-mx811-mx812dn-orijinal-toner",
+    "name": "Lexmark MS810dn / MS811dn / MX711 / MX811 / MX812dn Orijinal Toner",
+    "brand": "lexmark",
+    "category": "toner",
+    "subcategory": "orijinal-toner",
+    "code": "52D5H00",
+    "type": "orijinal",
+    "color": "siyah",
+    "capacity": "25.000 sayfa",
+    "compatible": [
+      {
+        "series": "MS",
+        "models": [
+          "MS810dn",
+          "MS811dn"
+        ]
+      },
+      {
+        "series": "MX",
+        "models": [
+          "MX711",
+          "MX811",
+          "MX812dn"
+        ]
+      }
+    ],
+    "specs": {
+      "Baskı Teknolojisi": "Siyah-beyaz lazer",
+      "Kapasite Standardı": "ISO/IEC 19752",
+      "Lexmark Kartuş Toplama Programı": "Evet",
+      "Not": "Bölgeye özel kartuş",
+      "Üretici Parça No": "52D5H00",
+      "Kapasite Türü": "Yüksek kapasiteli",
+      "Paket Boyutu (Y x G x D)": "198 x 158 x 495 mm",
+      "Paket Ağırlığı": "1,7 kg"
+    },
+    "description": "Lexmark 52D5H00, MS810 ve MS811 serisi iş tipi lazer yazıcılar için yüksek kapasiteli orijinal siyah tonerdir. Yoğun baskı hacmi olan departmanlar için uygundur.",
+    "featured": false
+  },
+  {
+    "slug": "lexmark-ms821dn-ms823dn-ms826ade-mx721ade-orijinal-toner",
+    "name": "Lexmark MS821dn / MS823dn / MS826ade / MX721ade Orijinal Toner",
+    "brand": "lexmark",
+    "category": "toner",
+    "subcategory": "orijinal-toner",
+    "code": "58D5H00",
+    "type": "orijinal",
+    "color": "siyah",
+    "capacity": "15.000 sayfa",
+    "compatible": [
+      {
+        "series": "MS",
+        "models": [
+          "MS821dn",
+          "MS823dn",
+          "MS826ade"
+        ]
+      },
+      {
+        "series": "MX",
+        "models": [
+          "MX721ade"
+        ]
+      }
+    ],
+    "specs": {
+      "Baskı Teknolojisi": "Siyah-beyaz lazer",
+      "Kapasite Standardı": "ISO/IEC 19752",
+      "Lexmark Kartuş Toplama Programı": "Evet",
+      "Not": "Bölgeye özel kartuş",
+      "Üretici Parça No": "58D5H00",
+      "Kapasite Türü": "Yüksek kapasiteli",
+      "Paket Boyutu (Y x G x D)": "198 x 495 x 158 mm",
+      "Paket Ağırlığı": "1,7 kg",
+      "UNSPSC Kodu": "44103103",
+      "Menşei": "Çin, Meksika"
+    },
+    "description": "Lexmark 58D5H00, MS821dn, MS823dn ve MX721ade gibi yeni nesil Lexmark lazer yazıcılarla uyumlu orijinal siyah tonerdir. Kurumsal ofislerde yüksek verimli siyah baskı sağlar.",
+    "featured": false
+  }
+]

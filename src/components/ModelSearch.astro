@@ -1,0 +1,178 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  size?: 'hero' | 'compact';
+  examples?: string[];
+}
+const { size = 'hero', examples = [] } = Astro.props;
+---
+
+<form class:list={['msearch', size]} action="/urunler" method="get" role="search">
+  <label class="visually-hidden" for={`q-${size}`}>Yazıcı modeli, toner kodu veya ürün adı</label>
+  <div class="field">
+    <Icon name="search" size={size === 'hero' ? 28 : 22} />
+    <input
+      id={`q-${size}`}
+      name="q"
+      type="search"
+      autocomplete="off"
+      spellcheck="false"
+      placeholder="Yazıcı modeli veya toner kodu"
+      role="combobox"
+      aria-autocomplete="list"
+      aria-expanded="false"
+      aria-controls={`r-${size}`}
+    />
+    <button class="btn btn-cta" type="submit">Ara</button>
+  </div>
+  <ul class="results" id={`r-${size}`} role="listbox" hidden></ul>
+  <p class="status visually-hidden" aria-live="polite"></p>
+  {examples.length > 0 && (
+    <p class="examples">
+      Örnek:{' '}
+      {examples.map((e, i) => (
+        <>
+          <button type="button" class="ex" data-q={e}>{e}</button>{i < examples.length - 1 ? ', ' : ''}
+        </>
+      ))}
+    </p>
+  )}
+</form>
+
+<script>
+  import { loadIndex, search, highlight } from '../lib/search';
+
+  for (const form of document.querySelectorAll<HTMLFormElement>('.msearch')) {
+    const input = form.querySelector('input')!;
+    const list = form.querySelector<HTMLUListElement>('.results')!;
+    const status = form.querySelector('.status')!;
+    let active = -1;
+
+    const close = () => {
+      list.hidden = true;
+      input.setAttribute('aria-expanded', 'false');
+      input.removeAttribute('aria-activedescendant');
+      active = -1;
+    };
+
+    const render = async () => {
+      const q = input.value.trim();
+      if (q.length < 2) return close();
+      const hits = search(await loadIndex(), q);
+      const top = hits.slice(0, 7);
+      if (!top.length) {
+        list.innerHTML = `<li class="empty">“${highlight(q, '')}” için sonuç yok. Modelinizi WhatsApp'tan yazın, sizin için bakalım.</li>`;
+      } else {
+        list.innerHTML = top
+          .map(({ entry: e, model }, i) => {
+            const sub = model
+              ? `${highlight(model, q)} ile uyumlu`
+              : `${e.b}, kod: ${highlight(e.c, q)}`;
+            return `<li role="option" id="${list.id}-${i}" aria-selected="false">
+              <a href="/urun/${e.s}" tabindex="-1"><span class="r-name">${highlight(e.n, q)}</span><span class="r-sub">${sub}</span></a></li>`;
+          })
+          .join('');
+        if (hits.length > top.length) {
+          list.insertAdjacentHTML(
+            'beforeend',
+            `<li class="all"><a href="/urunler?q=${encodeURIComponent(q)}" tabindex="-1">${hits.length} sonucun tümünü gör</a></li>`,
+          );
+        }
+      }
+      status.textContent = `${hits.length} sonuç`;
+      list.hidden = false;
+      input.setAttribute('aria-expanded', 'true');
+      active = -1;
+    };
+
+    const move = (dir: number) => {
+      const opts = [...list.querySelectorAll<HTMLLIElement>('[role=option]')];
+      if (!opts.length) return;
+      opts[active]?.setAttribute('aria-selected', 'false');
+      active = (active + dir + opts.length) % opts.length;
+      opts[active].setAttribute('aria-selected', 'true');
+      input.setAttribute('aria-activedescendant', opts[active].id);
+      opts[active].scrollIntoView({ block: 'nearest' });
+    };
+
+    input.addEventListener('input', render);
+    input.addEventListener('focus', () => input.value.trim().length >= 2 && render());
+    input.addEventListener('keydown', (ev) => {
+      if (ev.key === 'ArrowDown') { ev.preventDefault(); move(1); }
+      else if (ev.key === 'ArrowUp') { ev.preventDefault(); move(-1); }
+      else if (ev.key === 'Escape') close();
+      else if (ev.key === 'Enter' && active >= 0) {
+        ev.preventDefault();
+        list.querySelectorAll<HTMLAnchorElement>('[role=option] a')[active]?.click();
+      }
+    });
+    document.addEventListener('click', (ev) => { if (!form.contains(ev.target as Node)) close(); });
+
+    for (const ex of form.querySelectorAll<HTMLButtonElement>('.ex')) {
+      ex.addEventListener('click', () => { input.value = ex.dataset.q!; input.focus(); render(); });
+    }
+  }
+</script>
+
+<style>
+  .msearch { position: relative; width: 100%; }
+  .field {
+    display: flex; align-items: center; gap: 12px;
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    padding: 6px 6px 6px 22px;
+  }
+  .field:focus-within { box-shadow: 0 0 0 4px rgb(0 174 239 / .25); }
+  .field :global(svg) { color: var(--ink-3); flex: none; }
+  input {
+    flex: 1; min-width: 0;
+    border: 0; outline: 0; background: transparent;
+    font: inherit; color: var(--ink);
+  }
+  input::-webkit-search-cancel-button { cursor: pointer; }
+  .hero input { font-size: 20px; padding-block: 12px; }
+  .hero .btn { min-height: 56px; padding: 0 30px; font-size: 17px; }
+  .compact .field { padding-left: 16px; border-width: 1px; border-color: var(--rule); }
+  .compact .field:focus-within { border-color: var(--ink); }
+  .compact input { font-size: 17px; padding-block: 6px; }
+  .compact .btn { min-height: 42px; }
+
+  .results {
+    position: absolute; left: 0; right: 0; top: calc(100% + 8px); z-index: 30;
+    list-style: none; margin: 0; padding: 6px;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 14px;
+    box-shadow: 0 16px 40px rgb(0 0 0 / .12);
+    max-height: 420px; overflow-y: auto;
+    text-align: left;
+  }
+  .results :global(a) {
+    display: flex; flex-direction: column; gap: 2px;
+    padding: 10px 14px; border-radius: 8px;
+    color: var(--ink); text-decoration: none;
+  }
+  .results :global([aria-selected='true'] a),
+  .results :global(a:hover) { background: var(--paper-2); }
+  .results :global(.r-name) { font-weight: 600; }
+  .results :global(.r-sub) { font-size: 15px; color: var(--ink-3); }
+  .results :global(.all a) { font-weight: 700; color: var(--link); }
+  .results :global(.empty) { padding: 14px; color: var(--ink-2); }
+
+  .examples { margin-top: 14px; color: var(--ink-3); font-size: 16px; }
+  .ex {
+    background: none; border: 0; padding: 0; cursor: pointer;
+    font: inherit; color: var(--ink-2);
+    text-decoration: underline dotted; text-underline-offset: 3px;
+  }
+  .ex:hover { color: var(--ink); }
+
+  @media (max-width: 560px) {
+    .hero .field { padding-left: 16px; }
+    .hero input { font-size: 17px; }
+    .hero .btn { min-height: 48px; padding: 0 18px; }
+    .field :global(svg) { display: none; }
+  }
+</style>

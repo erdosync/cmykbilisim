@@ -1,0 +1,198 @@
+---
+// Ürün listesi + istemci tarafı filtreler. /urunler, /kategori/*, /marka/* sayfalarında ortak.
+import ProductCard from './ProductCard.astro';
+import ModelSearch from './ModelSearch.astro';
+import Icon from './Icon.astro';
+import { COLORS, TYPES, brandName, categoryName, type Product } from '../lib/products';
+import { whatsappLink } from '../data/site';
+
+interface Props {
+  products: Product[];
+  facets?: ('category' | 'brand' | 'color' | 'type')[];
+  emptyMessage?: string;
+  waMessage?: string;
+}
+const {
+  products,
+  facets = ['category', 'brand', 'color', 'type'],
+  emptyMessage = 'Bu gruptaki ürünler şu an sitede listelenmiyor, ama tedarik edebiliyoruz.',
+  waMessage = 'Merhaba, ürünleriniz hakkında bilgi almak istiyorum.',
+} = Astro.props;
+
+const count = (key: keyof Product, value: string) => products.filter((p) => p[key] === value).length;
+const options = (key: 'category' | 'brand' | 'color' | 'type', label: (v: string) => string) =>
+  [...new Set(products.map((p) => p[key]).filter(Boolean) as string[])]
+    .map((v) => ({ value: v, label: label(v), n: count(key, v) }))
+    .sort((a, b) => b.n - a.n || a.label.localeCompare(b.label, 'tr'));
+
+const GROUPS = {
+  category: { title: 'Ürün grubu', param: 'kategori', items: options('category', categoryName) },
+  brand: { title: 'Marka', param: 'marka', items: options('brand', brandName) },
+  color: { title: 'Renk', param: 'renk', items: options('color', (v) => COLORS[v]?.name ?? v) },
+  type: { title: 'Tür', param: 'tur', items: options('type', (v) => TYPES[v as keyof typeof TYPES] ?? v) },
+};
+// Tek seçeneği olan filtre grubu bir şey filtrelemez; gösterme
+const groups = facets.map((f) => ({ key: f, ...GROUPS[f] })).filter((g) => g.items.length > 1);
+---
+
+{products.length === 0 ? (
+  <div class="empty">
+    <p>{emptyMessage}</p>
+    <p>Yazıcınızın modelini ya da ürün kodunu gönderin; fiyat ve stok bilgisini iletelim.</p>
+    <a class="btn btn-wa" href={whatsappLink(waMessage)} target="_blank" rel="noopener"><Icon name="whatsapp" />WhatsApp'tan sorun</a>
+  </div>
+) : (
+  <div class="catalog" data-catalog>
+    <aside class="filters" aria-label="Filtreler">
+      <ModelSearch size="compact" />
+      {groups.map((g) => (
+        <fieldset data-facet={g.key} data-param={g.param}>
+          <legend>{g.title}</legend>
+          {g.items.map((it) => (
+            <label>
+              <input type="checkbox" value={it.value} />
+              <span class="lbl">
+                {g.key === 'color' && <span class="swatch" style={`background:${COLORS[it.value]?.swatch}`} />}
+                {it.label}
+              </span>
+              <span class="n">{it.n}</span>
+            </label>
+          ))}
+        </fieldset>
+      ))}
+    </aside>
+
+    <div class="results-col">
+      <div class="toolbar">
+        <p class="result-count" aria-live="polite"><strong data-count>{products.length}</strong> ürün</p>
+        <button type="button" class="btn btn-line clear" data-clear hidden>Filtreleri temizle</button>
+      </div>
+      <p class="query-note" data-query hidden></p>
+      <div class="grid-products">
+        {products.map((p) => <ProductCard product={p} />)}
+      </div>
+      <div class="empty" data-none hidden>
+        <p>Bu filtrelere uyan ürün yok.</p>
+        <p>Aradığınızı WhatsApp'tan yazın, uygun ürünü bulalım.</p>
+        <a class="btn btn-wa" href={whatsappLink(waMessage)} target="_blank" rel="noopener"><Icon name="whatsapp" />WhatsApp'tan sorun</a>
+      </div>
+    </div>
+  </div>
+)}
+
+<script>
+  import { loadIndex, search } from '../lib/search';
+
+  const root = document.querySelector<HTMLElement>('[data-catalog]');
+  if (root) {
+    const cards = [...root.querySelectorAll<HTMLAnchorElement>('.card')];
+    const sets = [...root.querySelectorAll<HTMLFieldSetElement>('fieldset[data-facet]')];
+    const countEl = root.querySelector('[data-count]')!;
+    const clearBtn = root.querySelector<HTMLButtonElement>('[data-clear]')!;
+    const none = root.querySelector<HTMLElement>('[data-none]')!;
+    const note = root.querySelector<HTMLElement>('[data-query]')!;
+    const params = new URLSearchParams(location.search);
+    const query = params.get('q')?.trim() ?? '';
+    let allowed: Set<string> | null = null;
+
+    // URL'deki filtreleri işaretle (ör. /urunler?marka=canon)
+    for (const fs of sets) {
+      const wanted = params.getAll(fs.dataset.param!);
+      for (const cb of fs.querySelectorAll<HTMLInputElement>('input')) cb.checked = wanted.includes(cb.value);
+    }
+
+    const apply = () => {
+      const active = sets.map((fs) => ({
+        key: fs.dataset.facet!,
+        param: fs.dataset.param!,
+        values: [...fs.querySelectorAll<HTMLInputElement>('input:checked')].map((i) => i.value),
+      }));
+      let shown = 0;
+      for (const card of cards) {
+        const ok =
+          (!allowed || allowed.has(card.dataset.slug!)) &&
+          active.every((f) => !f.values.length || f.values.includes(card.dataset[f.key] ?? ''));
+        card.hidden = !ok;
+        if (ok) shown++;
+      }
+      countEl.textContent = String(shown);
+      none.hidden = shown > 0;
+      clearBtn.hidden = !active.some((f) => f.values.length) && !allowed;
+
+      const url = new URL(location.href);
+      for (const f of active) {
+        url.searchParams.delete(f.param);
+        for (const v of f.values) url.searchParams.append(f.param, v);
+      }
+      if (!allowed) url.searchParams.delete('q');
+      history.replaceState(null, '', url);
+    };
+
+    root.addEventListener('change', (ev) => {
+      if ((ev.target as HTMLElement).matches('fieldset input')) apply();
+    });
+    clearBtn.addEventListener('click', () => {
+      for (const cb of root.querySelectorAll<HTMLInputElement>('fieldset input')) cb.checked = false;
+      allowed = null;
+      note.hidden = true;
+      apply();
+    });
+
+    if (query) {
+      const input = root.querySelector<HTMLInputElement>('.msearch input');
+      if (input) input.value = query;
+      loadIndex().then((index) => {
+        allowed = new Set(search(index, query).map((h) => h.entry.s));
+        note.hidden = false;
+        note.textContent = `“${query}” araması için sonuçlar`;
+        apply();
+      });
+    } else {
+      apply();
+    }
+  }
+</script>
+
+<style>
+  .catalog { display: grid; grid-template-columns: 260px 1fr; gap: 40px; align-items: start; }
+  .filters { position: sticky; top: 100px; display: flex; flex-direction: column; gap: 24px; }
+  fieldset { border: 0; margin: 0; padding: 0; display: grid; gap: 2px; }
+  legend { font-family: var(--font-display); font-weight: 700; font-size: 16px; margin-bottom: 8px; padding: 0; }
+  label {
+    display: grid; grid-template-columns: 20px 1fr auto; align-items: center; gap: 10px;
+    padding: 6px 8px; margin-inline: -8px; border-radius: 6px;
+    font-size: 16px; cursor: pointer;
+  }
+  label:hover { background: var(--paper-2); }
+  input[type='checkbox'] { width: 18px; height: 18px; accent-color: var(--ink); margin: 0; }
+  .lbl { display: inline-flex; align-items: center; gap: 8px; }
+  .n { color: var(--ink-3); font-size: 14px; font-variant-numeric: tabular-nums; }
+  .swatch { width: 12px; height: 12px; border-radius: 3px; box-shadow: inset 0 0 0 1px rgb(0 0 0 / .12); }
+
+  .toolbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 48px; margin-bottom: 16px; }
+  .result-count { color: var(--ink-2); }
+  .result-count strong { color: var(--ink); font-family: var(--font-display); }
+  .clear { min-height: 40px; font-size: 14px; }
+  .clear[hidden] { display: none; }
+  .query-note { margin: -8px 0 16px; color: var(--ink-2); }
+
+  .empty {
+    display: flex; flex-direction: column; align-items: flex-start; gap: 8px;
+    padding: 32px; border: 1px dashed var(--rule); border-radius: var(--radius); color: var(--ink-2);
+  }
+  .empty p:first-child { color: var(--ink); font-weight: 600; font-size: 19px; }
+  .empty .btn { margin-top: 12px; }
+  .empty[hidden] { display: none; }
+
+  @media (max-width: 860px) {
+    .catalog { grid-template-columns: 1fr; gap: 24px; }
+    .filters { position: static; }
+    fieldset { display: flex; flex-wrap: wrap; gap: 8px; }
+    legend { width: 100%; }
+    label {
+      display: inline-flex; margin: 0; padding: 6px 12px;
+      border: 1px solid var(--rule); border-radius: 999px; font-size: 15px;
+    }
+    label:has(input:checked) { border-color: var(--ink); background: var(--paper-2); }
+  }
+</style>

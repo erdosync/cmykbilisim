@@ -1,0 +1,46 @@
+---
+import Base from '../../layouts/Base.astro';
+import Catalog from '../../components/Catalog.astro';
+import { BRANDS, type Brand } from '../../data/brands';
+import { productsOfBrand } from '../../lib/products';
+import { brandLogo } from '../../lib/brandLogo';
+
+export function getStaticPaths() {
+  return BRANDS.map((b) => ({ params: { slug: b.slug }, props: { brand: b } }));
+}
+const { brand } = Astro.props as { brand: Brand };
+const products = productsOfBrand(brand.slug);
+const logo = brandLogo(brand.slug);
+---
+
+<Base
+  title={`${brand.name} sarf malzemeleri`}
+  description={`${brand.name} toner, kartuş ve sarf malzemeleri. ${brand.about} CMYK Bilişim, Ankara.`}
+>
+  <div class="wrap">
+    <header class="page-head">
+      <ol class="crumbs"><li><a href="/">Ana sayfa</a></li><li><a href="/markalar">Markalar</a></li><li>{brand.name}</li></ol>
+      <div class="brand-head">
+        <div>
+          <h1>{brand.name} sarf malzemeleri</h1>
+          <p>{brand.about}</p>
+        </div>
+        {logo && <img class="brand-logo" src={logo} alt={brand.name} />}
+      </div>
+    </header>
+    <div class="body">
+      <Catalog
+        products={products}
+        facets={['category', 'color', 'type']}
+        emptyMessage={`${brand.name} ürünleri şu an sitede listelenmiyor, ama tedarik edebiliyoruz.`}
+        waMessage={`Merhaba, ${brand.name} sarf malzemeleri hakkında bilgi almak istiyorum.`}
+      />
+    </div>
+  </div>
+</Base>
+
+<style>
+  .body { padding-top: 32px; }
+  .brand-head { display: flex; align-items: center; justify-content: space-between; gap: 24px 48px; flex-wrap: wrap; }
+  .brand-logo { height: 64px; width: 220px; object-fit: contain; object-position: right center; }
+</style>

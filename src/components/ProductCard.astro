@@ -1,0 +1,63 @@
+---
+import ProductVisual from './ProductVisual.astro';
+import { COLORS, TYPES, brandName, modelCount, type Product } from '../lib/products';
+
+interface Props {
+  product: Product;
+}
+const { product: p } = Astro.props;
+const color = p.color ? COLORS[p.color] : null;
+const models = modelCount(p);
+---
+
+<a
+  class="card"
+  data-slug={p.slug}
+  href={`/urun/${p.slug}`}
+  data-brand={p.brand}
+  data-category={p.category}
+  data-color={p.color ?? ''}
+  data-type={p.type ?? ''}
+>
+  <div class="card-art"><ProductVisual product={p} /></div>
+  <div class="card-body">
+    <p class="card-brand">{brandName(p.brand)}</p>
+    <h3 class="card-name">{p.name}</h3>
+    <p class="card-code">{p.code}</p>
+    <ul class="card-meta">
+      {color && (
+        <li><span class="swatch" style={`background:${color.swatch}`}></span>{color.name}</li>
+      )}
+      {p.type && <li>{TYPES[p.type]}</li>}
+      {models > 0 && <li>{models} yazıcı modeliyle uyumlu</li>}
+    </ul>
+  </div>
+</a>
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    overflow: hidden;
+    color: var(--ink);
+    text-decoration: none;
+    background: var(--paper);
+    transition: border-color .15s;
+  }
+  .card:hover { border-color: var(--ink); color: var(--ink); }
+  .card[hidden] { display: none; }
+  .card-art { background: var(--paper-2); padding: 10px 20px; aspect-ratio: 4 / 3; display: grid; place-items: center; }
+  .card-art :global(.photo) { height: 100%; width: auto; max-width: 100%; }
+  .card-body { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 4px; flex: 1; }
+  .card-brand { font-size: 15px; color: var(--ink-3); font-weight: 600; }
+  .card-name { font-size: 17px; line-height: 1.3; }
+  .card-code { font-size: 15px; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+  .card-meta {
+    list-style: none; padding: 0; margin: auto 0 0; padding-top: 12px;
+    display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 14px; color: var(--ink-3);
+  }
+  .card-meta li { display: inline-flex; align-items: center; gap: 6px; }
+  .swatch { width: 12px; height: 12px; border-radius: 3px; box-shadow: inset 0 0 0 1px rgb(0 0 0 / .12); }
+</style>

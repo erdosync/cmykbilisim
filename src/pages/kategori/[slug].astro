@@ -1,0 +1,37 @@
+---
+import Base from '../../layouts/Base.astro';
+import Catalog from '../../components/Catalog.astro';
+import { CATEGORIES, type Category } from '../../data/categories';
+import { productsInCategory } from '../../lib/products';
+
+export function getStaticPaths() {
+  return CATEGORIES.map((c) => ({ params: { slug: c.slug }, props: { category: c } }));
+}
+const { category } = Astro.props as { category: Category };
+const products = productsInCategory(category.slug);
+---
+
+<Base title={category.name} description={`${category.name}: ${category.summary} CMYK Bilişim, Ankara.`}>
+  <div class="wrap">
+    <header class="page-head">
+      <ol class="crumbs"><li><a href="/">Ana sayfa</a></li><li><a href="/urunler">Ürünler</a></li><li>{category.name}</li></ol>
+      <h1>{category.name}</h1>
+      <p>{category.summary}</p>
+      {category.subcategories && (
+        <p class="subs">Bu grupta: {category.subcategories.map((s) => s.name).join(', ')}.</p>
+      )}
+    </header>
+    <div class="body">
+      <Catalog
+        products={products}
+        facets={['brand', 'color', 'type']}
+        waMessage={`Merhaba, ${category.name.toLocaleLowerCase('tr')} ürünleri hakkında bilgi almak istiyorum.`}
+      />
+    </div>
+  </div>
+</Base>
+
+<style>
+  .body { padding-top: 32px; }
+  .page-head .subs { font-size: 17px; margin-top: 6px; color: var(--ink-3); }
+</style>

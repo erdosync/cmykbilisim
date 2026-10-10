@@ -1,0 +1,20 @@
+---
+import Base from '../layouts/Base.astro';
+import Catalog from '../components/Catalog.astro';
+import { PRODUCTS } from '../lib/products';
+---
+
+<Base title="Ürünler" description="Toner, kartuş, drum ve yazıcı sarf malzemeleri. Markaya, renge ve yazıcı modeline göre arayın.">
+  <div class="wrap">
+    <header class="page-head">
+      <ol class="crumbs"><li><a href="/">Ana sayfa</a></li><li>Ürünler</li></ol>
+      <h1>Ürünler</h1>
+      <p>Markaya, ürün grubuna ya da yazıcı modelinize göre filtreleyin. Fiyat ve stok bilgisi için ürün sayfasından bize yazabilirsiniz.</p>
+    </header>
+    <div class="body"><Catalog products={PRODUCTS} /></div>
+  </div>
+</Base>
+
+<style>
+  .body { padding-top: 32px; }
+</style>

@@ -1,0 +1,33 @@
+---
+import { brandLogo } from '../lib/brandLogo';
+
+interface Props {
+  slug: string;
+  name: string;
+  count?: number;
+}
+const { slug, name, count } = Astro.props;
+const logo = brandLogo(slug);
+---
+
+<a class="tile" href={`/marka/${slug}`}>
+  <span class="logo">
+    {logo ? <img src={logo} alt={name} loading="lazy" /> : <span class="word">{name}</span>}
+  </span>
+  {count !== undefined && <span class="count">{count} ürün</span>}
+</a>
+
+<style>
+  .tile {
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+    min-height: 120px; padding: 20px;
+    border: 1px solid var(--rule); border-radius: var(--radius);
+    background: var(--paper); text-decoration: none; color: var(--ink-3);
+    transition: border-color .15s;
+  }
+  .tile:hover { border-color: var(--ink); color: var(--ink); }
+  .logo { height: 44px; display: flex; align-items: center; justify-content: center; }
+  .logo img { height: 40px; width: 140px; object-fit: contain; }
+  .word { font-family: var(--font-display); font-weight: 800; font-size: 22px; color: var(--ink); }
+  .count { font-size: 14px; }
+</style>

@@ -1,0 +1,60 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { SITE, whatsappLink } from '../data/site';
+
+const mapQuery = encodeURIComponent(`${SITE.address}, ${SITE.district}`);
+---
+
+<Base title="İletişim" description={`CMYK Bilişim iletişim: ${SITE.phone}, ${SITE.address}, ${SITE.district}.`}>
+  <div class="wrap">
+    <header class="page-head">
+      <ol class="crumbs"><li><a href="/">Ana sayfa</a></li><li>İletişim</li></ol>
+      <h1>İletişim</h1>
+      <p>Fiyat, stok ve uyumluluk sorularınız için en hızlı yol WhatsApp. Yazıcınızın modelini yazmanız yeterli.</p>
+    </header>
+
+    <div class="contact">
+      <ul class="ways">
+        <li>
+          <span class="ic" style="background:var(--wa)"><Icon name="whatsapp" /></span>
+          <div><h2>WhatsApp</h2><a href={whatsappLink()} target="_blank" rel="noopener">{SITE.mobile}</a></div>
+        </li>
+        <li>
+          <span class="ic" style="background:var(--c)"><Icon name="phone" /></span>
+          <div><h2>Telefon</h2><a href={SITE.phoneHref}>{SITE.phone}</a></div>
+        </li>
+        <li>
+          <span class="ic" style="background:var(--m)"><Icon name="mail" /></span>
+          <div><h2>E-posta</h2>{SITE.emails.map((e) => <a href={`mailto:${e}`}>{e}</a>)}</div>
+        </li>
+        <li>
+          <span class="ic" style="background:var(--k)"><Icon name="pin" /></span>
+          <div>
+            <h2>Adres</h2>
+            <p>{SITE.address}<br />{SITE.district}</p>
+            <a href={SITE.mapsUrl} target="_blank" rel="noopener">Yol tarifi al</a>
+          </div>
+        </li>
+      </ul>
+      <iframe
+        class="map"
+        title="CMYK Bilişim konumu"
+        src={`https://maps.google.com/maps?q=${mapQuery}&z=16&output=embed`}
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+  </div>
+</Base>
+
+<style>
+  .contact { display: grid; grid-template-columns: 1fr 1.3fr; gap: 40px; padding-top: 40px; align-items: stretch; }
+  .ways { list-style: none; margin: 0; padding: 0; display: grid; gap: 28px; align-content: start; }
+  .ways li { display: grid; grid-template-columns: 44px 1fr; gap: 16px; align-items: start; }
+  .ic { width: 44px; height: 44px; border-radius: 10px; display: grid; place-items: center; color: #fff; }
+  .ways h2 { font-size: 17px; margin-bottom: 4px; }
+  .ways a, .ways p { display: block; font-size: 18px; overflow-wrap: anywhere; }
+  .ways p { color: var(--ink-2); }
+  .map { width: 100%; min-height: 420px; border: 0; border-radius: 14px; background: var(--paper-2); }
+  @media (max-width: 860px) { .contact { grid-template-columns: 1fr; } .map { min-height: 320px; } }
+</style>

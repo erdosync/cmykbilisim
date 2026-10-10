@@ -1,0 +1,24 @@
+---
+import Base from '../layouts/Base.astro';
+import BrandTile from '../components/BrandTile.astro';
+import { brandsWithCounts } from '../lib/products';
+
+const brands = brandsWithCounts();
+---
+
+<Base title="Markalar" description="HP, Canon, Brother, Epson, Lexmark, Kyocera ve diğer markalar için toner ve yazıcı sarf malzemeleri.">
+  <div class="wrap">
+    <header class="page-head">
+      <ol class="crumbs"><li><a href="/">Ana sayfa</a></li><li>Markalar</li></ol>
+      <h1>Markalar</h1>
+      <p>Çalıştığımız {brands.length} marka. Markaya tıklayarak o markanın ürünlerini görebilir ya da bilgi isteyebilirsiniz.</p>
+    </header>
+    <div class="grid">
+      {brands.map((b) => <BrandTile slug={b.slug} name={b.name} count={b.count || undefined} />)}
+    </div>
+  </div>
+</Base>
+
+<style>
+  .grid { padding-top: 32px; display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; }
+</style>

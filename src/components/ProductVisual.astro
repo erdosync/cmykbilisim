@@ -1,0 +1,32 @@
+---
+// Ürün fotoğrafı varsa onu, yoksa kategoriye özel çizimi gösterir.
+import ProductArt from './ProductArt.astro';
+import { productPhoto } from '../lib/brandLogo';
+import type { Product } from '../lib/products';
+
+interface Props {
+  product: Product;
+  eager?: boolean;
+}
+const { product: p, eager = false } = Astro.props;
+const photo = productPhoto(p.slug);
+---
+
+{photo ? (
+  <img
+    class="photo"
+    src={photo}
+    alt={p.name}
+    width="1000"
+    height="1000"
+    loading={eager ? 'eager' : 'lazy'}
+    decoding="async"
+  />
+) : (
+  <ProductArt category={p.category} color={p.color} label={p.name} />
+)}
+
+<style>
+  /* Beyaz zeminli fotoğraf, gri kutunun rengini alsın */
+  .photo { width: 100%; height: auto; aspect-ratio: 1; object-fit: contain; mix-blend-mode: multiply; }
+</style>

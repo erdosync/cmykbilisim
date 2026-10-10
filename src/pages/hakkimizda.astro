@@ -1,0 +1,73 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { SITE, whatsappLink } from '../data/site';
+import { BRANDS } from '../data/brands';
+---
+
+<Base title="Hakkımızda" description="CMYK Bilişim; Ankara Çankaya'da toner, kartuş, drum ve yazıcı sarf malzemeleri tedarik eder.">
+  <div class="wrap">
+    <header class="page-head">
+      <ol class="crumbs"><li><a href="/">Ana sayfa</a></li><li>Hakkımızda</li></ol>
+      <h1>Hakkımızda</h1>
+    </header>
+
+    <div class="about">
+      <div class="text">
+        <p class="lead">
+          CMYK Bilişim, Ankara Çankaya'da yazıcı sarf malzemeleri ve bilişim ürünleri tedarik eden bir firmadır.
+          Ofislerin, okulların ve kurumların yazıcıları için doğru toneri, kartuşu ve yedek parçayı bulup ulaştırıyoruz.
+        </p>
+        <p>
+          Adımızı baskının dört temel renginden alıyoruz: cyan, magenta, sarı ve siyah. Yazıcınız ister lazer,
+          ister mürekkep püskürtmeli, ister nokta vuruşlu ya da barkod yazıcı olsun, ihtiyacınız olan sarf
+          malzemesini {BRANDS.length} markada orijinal ve muadil seçenekleriyle sunuyoruz.
+        </p>
+        <p>
+          Hangi ürünün yazıcınıza uyduğundan emin değilseniz yazıcınızın modelini ya da eski tonerin üzerindeki
+          kodu bize iletmeniz yeterli. Uygun ürünü, fiyatını ve teslim süresini size bildiriyoruz.
+        </p>
+      </div>
+
+      <dl class="card">
+        <div><dt>Unvan</dt><dd>{SITE.legalName}</dd></div>
+        <div><dt>Adres</dt><dd>{SITE.address}, {SITE.district}</dd></div>
+        <div><dt>Telefon</dt><dd><a href={SITE.phoneHref}>{SITE.phone}</a></dd></div>
+        <div><dt>E-posta</dt><dd><a href={`mailto:${SITE.email}`}>{SITE.email}</a></dd></div>
+        <a class="btn btn-wa" href={whatsappLink()} target="_blank" rel="noopener"><Icon name="whatsapp" />WhatsApp'tan yazın</a>
+      </dl>
+    </div>
+
+    <section class="what" aria-labelledby="what-h">
+      <h2 id="what-h">Neler sağlıyoruz</h2>
+      <ul>
+        <li><h3>Toner ve kartuş</h3><p>Lazer ve mürekkep püskürtmeli yazıcılar için orijinal ve muadil seçenekler.</p></li>
+        <li><h3>Drum, fuser ve yedek parça</h3><p>Görüntüleme üniteleri, ısıtıcı üniteler ve bakım kitleri.</p></li>
+        <li><h3>Şerit ve barkod sarfları</h3><p>Nokta vuruşlu yazıcı şeritleri, barkod ve etiket yazıcısı malzemeleri.</p></li>
+        <li><h3>Yazıcılar</h3><p>Ofis ihtiyacınıza uygun lazer, mürekkep püskürtmeli ve barkod yazıcılar.</p></li>
+      </ul>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .about { display: grid; grid-template-columns: 1.5fr 1fr; gap: clamp(32px, 6vw, 80px); padding-top: 40px; align-items: start; }
+  .text { display: grid; gap: 18px; max-width: 64ch; color: var(--ink-2); }
+  .text .lead { font-size: 22px; color: var(--ink); line-height: 1.45; }
+  .card { margin: 0; padding: 24px; border: 1px solid var(--rule); border-radius: 14px; display: grid; gap: 14px; }
+  .card dt { font-size: 14px; color: var(--ink-3); }
+  .card dd { margin: 2px 0 0; font-weight: 600; }
+  .card .btn { margin-top: 8px; }
+  .what { margin-top: clamp(48px, 7vw, 88px); }
+  .what ul { list-style: none; margin: 24px 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
+  .what li { border-top: 4px solid var(--k); padding-top: 16px; }
+  .what li:nth-child(1) { border-color: var(--c); }
+  .what li:nth-child(2) { border-color: var(--m); }
+  .what li:nth-child(3) { border-color: var(--y); }
+  .what p { margin-top: 8px; color: var(--ink-2); font-size: 17px; }
+  @media (max-width: 860px) {
+    .about { grid-template-columns: 1fr; }
+    .what ul { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 520px) { .what ul { grid-template-columns: 1fr; } }
+</style>

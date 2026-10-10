@@ -1,0 +1,228 @@
+---
+import '../styles/global.css';
+import Icon from '../components/Icon.astro';
+import { SITE, whatsappLink } from '../data/site';
+import { CATEGORIES } from '../data/categories';
+import { brandsWithCounts } from '../lib/products';
+
+interface Props {
+  title?: string;
+  description?: string;
+  waMessage?: string;
+}
+const { title, description = `${SITE.name}: ${SITE.tagline}. HP, Canon, Brother, Epson, Lexmark ve daha fazlası. Ankara.`, waMessage } =
+  Astro.props;
+const fullTitle = title ? `${title} | ${SITE.name}` : `${SITE.name} | Toner, Kartuş ve Yazıcı Sarf Malzemeleri`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const path = Astro.url.pathname;
+
+const NAV = [
+  { href: '/urunler', label: 'Ürünler' },
+  { href: '/markalar', label: 'Markalar' },
+  { href: '/hakkimizda', label: 'Hakkımızda' },
+  { href: '/iletisim', label: 'İletişim' },
+];
+const isActive = (href: string) => path === href || path.startsWith(`${href}/`);
+
+const footerCats = CATEGORIES;
+const footerBrands = brandsWithCounts().slice(0, 8);
+const wa = whatsappLink(waMessage ?? 'Merhaba, ürünleriniz hakkında bilgi almak istiyorum.');
+
+const ld = {
+  '@context': 'https://schema.org',
+  '@type': 'Store',
+  name: SITE.name,
+  legalName: SITE.legalName,
+  url: Astro.site?.toString(),
+  logo: new URL('/logo.svg', Astro.site).toString(),
+  telephone: '+903123908041',
+  email: SITE.email,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: SITE.address,
+    addressLocality: 'Çankaya',
+    addressRegion: 'Ankara',
+    addressCountry: 'TR',
+  },
+};
+---
+
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="tr_TR" />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip" href="#icerik">İçeriğe geç</a>
+    <header class="site-header">
+      <div class="strip" aria-hidden="true"></div>
+      <div class="wrap bar">
+        <a class="brand" href="/" aria-label={`${SITE.name} ana sayfa`}>
+          <img src="/logo.svg" alt={SITE.name} width="160" height="61" />
+        </a>
+        <nav class="nav" id="site-nav" aria-label="Ana menü">
+          <ul>
+            {NAV.map((n) => (
+              <li><a href={n.href} aria-current={isActive(n.href) ? 'page' : undefined}>{n.label}</a></li>
+            ))}
+          </ul>
+          <div class="nav-contact">
+            <a class="tel" href={SITE.phoneHref}><Icon name="phone" size={18} />{SITE.phone}</a>
+            <a class="btn btn-wa" href={wa} target="_blank" rel="noopener"><Icon name="whatsapp" />WhatsApp'tan yazın</a>
+          </div>
+        </nav>
+        <button class="menu-btn" type="button" aria-controls="site-nav" aria-expanded="false">
+          <Icon name="menu" size={26} class="i-open" />
+          <Icon name="close" size={26} class="i-close" />
+          <span class="visually-hidden">Menü</span>
+        </button>
+      </div>
+    </header>
+
+    <main id="icerik">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap foot-grid">
+        <div class="foot-about">
+          <img src="/logo.svg" alt={SITE.name} width="180" height="69" />
+          <p>{SITE.tagline}. Ofisiniz ve yazıcınız için doğru ürünü bulmanıza yardımcı oluyoruz.</p>
+        </div>
+        <nav aria-label="Kategoriler">
+          <h2>Kategoriler</h2>
+          <ul>{footerCats.map((c) => <li><a href={`/kategori/${c.slug}`}>{c.name}</a></li>)}</ul>
+        </nav>
+        <nav aria-label="Markalar">
+          <h2>Markalar</h2>
+          <ul>{footerBrands.map((b) => <li><a href={`/marka/${b.slug}`}>{b.name}</a></li>)}</ul>
+        </nav>
+        <div>
+          <h2>İletişim</h2>
+          <ul class="foot-contact">
+            <li><a href={SITE.phoneHref}>{SITE.phone}</a></li>
+            <li><a href={wa} target="_blank" rel="noopener">WhatsApp: {SITE.mobile}</a></li>
+            {SITE.emails.map((e) => <li><a href={`mailto:${e}`}>{e}</a></li>)}
+            <li><a href={SITE.mapsUrl} target="_blank" rel="noopener">{SITE.address}, {SITE.district}</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="wrap foot-legal">
+        <p>© {new Date().getFullYear()} {SITE.legalName}</p>
+        <p>Marka adları ve logoları ilgili sahiplerinin tescilli markalarıdır.</p>
+      </div>
+      <div class="strip" aria-hidden="true"></div>
+    </footer>
+
+    <a class="wa-float" href={wa} target="_blank" rel="noopener" aria-label="WhatsApp'tan yazın">
+      <Icon name="whatsapp" size={30} />
+    </a>
+
+    <script>
+      const btn = document.querySelector<HTMLButtonElement>('.menu-btn');
+      const header = document.querySelector('.site-header');
+      btn?.addEventListener('click', () => {
+        const open = btn.getAttribute('aria-expanded') !== 'true';
+        btn.setAttribute('aria-expanded', String(open));
+        header?.classList.toggle('is-open', open);
+      });
+    </script>
+  </body>
+</html>
+
+<style>
+  .skip { position: absolute; left: -999px; top: 8px; z-index: 100; background: var(--ink); color: #fff; padding: 8px 14px; border-radius: 6px; }
+  .skip:focus { left: 8px; }
+
+  .strip { height: 4px; background: var(--strip); }
+
+  .site-header {
+    position: sticky; top: 0; z-index: 50;
+    background: rgb(255 255 255 / .96);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .bar { display: flex; align-items: center; gap: 32px; min-height: 76px; }
+  .brand img { width: 150px; height: auto; }
+  .nav { display: flex; align-items: center; justify-content: space-between; flex: 1; gap: 24px; }
+  .nav ul { display: flex; gap: 4px; list-style: none; margin: 0; padding: 0; }
+  .nav ul a {
+    display: block; padding: 8px 12px; border-radius: 6px;
+    font-family: var(--font-display); font-weight: 600; font-size: 16px;
+    color: var(--ink); text-decoration: none;
+  }
+  .nav ul a:hover { background: var(--paper-2); color: var(--ink); }
+  .nav ul a[aria-current='page'] { box-shadow: inset 0 -3px 0 var(--m); border-radius: 6px 6px 0 0; }
+  .nav-contact { display: flex; align-items: center; gap: 18px; }
+  .tel { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; font-family: var(--font-display); font-size: 16px; color: var(--ink); text-decoration: none; white-space: nowrap; }
+  .tel :global(svg) { color: var(--c); }
+  .nav-contact .btn { min-height: 44px; font-size: 15px; padding: 0 18px; }
+
+  .menu-btn { display: none; margin-left: auto; background: none; border: 0; padding: 8px; color: var(--ink); cursor: pointer; }
+  .menu-btn :global(.i-close) { display: none; }
+
+  @media (max-width: 1080px) {
+    .tel { display: none; }
+  }
+  @media (max-width: 860px) {
+    .bar { min-height: 64px; }
+    .brand img { width: 128px; }
+    .menu-btn { display: block; }
+    .nav {
+      display: none;
+      position: absolute; left: 0; right: 0; top: 100%;
+      flex-direction: column; align-items: stretch; gap: 16px;
+      background: var(--paper); border-bottom: 1px solid var(--rule);
+      padding: 12px var(--gutter) 24px;
+    }
+    .is-open .nav { display: flex; }
+    .is-open .menu-btn :global(.i-open) { display: none; }
+    .is-open .menu-btn :global(.i-close) { display: block; }
+    .nav ul { flex-direction: column; }
+    .nav ul a { padding: 12px 8px; font-size: 18px; }
+    .nav-contact { flex-direction: column; align-items: stretch; }
+    .tel { display: inline-flex; justify-content: center; padding: 8px; }
+  }
+
+  .site-footer { margin-top: clamp(56px, 8vw, 96px); background: var(--paper-2); }
+  .foot-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1.4fr; gap: 40px; padding-block: 56px 40px; }
+  .foot-about img { width: 170px; height: auto; }
+  .foot-about p { margin-top: 16px; color: var(--ink-2); font-size: 16px; max-width: 34ch; }
+  .site-footer h2 { font-size: 16px; font-weight: 700; margin-bottom: 14px; letter-spacing: 0; }
+  .site-footer ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; font-size: 16px; }
+  .site-footer ul a { color: var(--ink-2); text-decoration: none; }
+  .site-footer ul a:hover { color: var(--ink); text-decoration: underline; }
+  .foot-contact { overflow-wrap: anywhere; }
+  .foot-legal { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; padding-block: 20px; border-top: 1px solid var(--rule); font-size: 14px; color: var(--ink-3); }
+  @media (max-width: 860px) {
+    .foot-grid { grid-template-columns: 1fr 1fr; }
+    .foot-about { grid-column: 1 / -1; }
+  }
+  @media (max-width: 520px) {
+    .foot-grid { grid-template-columns: 1fr; }
+  }
+
+  .wa-float {
+    position: fixed; right: 18px; bottom: 18px; z-index: 40;
+    width: 58px; height: 58px; border-radius: 50%;
+    display: none; place-items: center;
+    background: var(--wa); color: #fff;
+    box-shadow: 0 6px 20px rgb(0 0 0 / .18);
+  }
+  .wa-float:hover { color: #fff; background: #178c46; }
+  @media (max-width: 860px) { .wa-float { display: grid; } }
+</style>
