@@ -26,7 +26,7 @@ const mapQuery = encodeURIComponent(`${SITE.address}, ${SITE.district}`);
         </li>
         <li>
           <span class="ic" style="background:var(--m)"><Icon name="mail" /></span>
-          <div><h2>E-posta</h2>{SITE.emails.map((e) => <a href={`mailto:${e}`}>{e}</a>)}</div>
+          <div><h2>E-posta</h2><a href={`mailto:${SITE.email}`}>{SITE.email}</a></div>
         </li>
         <li>
           <span class="ic" style="background:var(--k)"><Icon name="pin" /></span>

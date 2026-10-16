@@ -7,7 +7,6 @@ export const SITE = {
   mobile: '0 (533) 614 98 19',
   whatsapp: '905336149819',
   email: 'dursun@cmykbilisim.com.tr',
-  emails: ['dursun@cmykbilisim.com.tr', 'aysegul@cmykbilisim.com.tr'],
   address: 'Korkutreis Mah. Sezenler Cad. Güneş Apt. No:1 İç Kapı No:15',
   district: 'Çankaya / Ankara',
   mapsUrl:
