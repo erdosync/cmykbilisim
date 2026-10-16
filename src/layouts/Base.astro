@@ -57,6 +57,7 @@ const ld = {
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="theme-color" content="#ffffff" />
+    <meta name="google-site-verification" content="CCDVdIotjhSTDYoh4KORXHhRTAe01TM5atl-ZoKrBHI" />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="tr_TR" />
     <meta property="og:site_name" content={SITE.name} />
@@ -116,7 +117,7 @@ const ld = {
           <ul class="foot-contact">
             <li><a href={SITE.phoneHref}>{SITE.phone}</a></li>
             <li><a href={wa} target="_blank" rel="noopener">WhatsApp: {SITE.mobile}</a></li>
-            {SITE.emails.map((e) => <li><a href={`mailto:${e}`}>{e}</a></li>)}
+            <li><a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
             <li><a href={SITE.mapsUrl} target="_blank" rel="noopener">{SITE.address}, {SITE.district}</a></li>
           </ul>
         </div>
