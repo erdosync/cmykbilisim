@@ -8,7 +8,7 @@ interface Props {
 const { size = 'hero', examples = [] } = Astro.props;
 ---
 
-<form class:list={['msearch', size]} action="/urunler" method="get" role="search">
+<form class:list={['msearch', size]} action="/urunler/" method="get" role="search">
   <label class="visually-hidden" for={`q-${size}`}>Yazıcı modeli, toner kodu veya ürün adı</label>
   <div class="field">
     <Icon name="search" size={size === 'hero' ? 28 : 22} />
@@ -70,13 +70,13 @@ const { size = 'hero', examples = [] } = Astro.props;
               ? `${highlight(model, q)} ile uyumlu`
               : `${e.b}, kod: ${highlight(e.c, q)}`;
             return `<li role="option" id="${list.id}-${i}" aria-selected="false">
-              <a href="/urun/${e.s}" tabindex="-1"><span class="r-name">${highlight(e.n, q)}</span><span class="r-sub">${sub}</span></a></li>`;
+              <a href="/urun/${e.s}/" tabindex="-1"><span class="r-name">${highlight(e.n, q)}</span><span class="r-sub">${sub}</span></a></li>`;
           })
           .join('');
         if (hits.length > top.length) {
           list.insertAdjacentHTML(
             'beforeend',
-            `<li class="all"><a href="/urunler?q=${encodeURIComponent(q)}" tabindex="-1">${hits.length} sonucun tümünü gör</a></li>`,
+            `<li class="all"><a href="/urunler/?q=${encodeURIComponent(q)}" tabindex="-1">${hits.length} sonucun tümünü gör</a></li>`,
           );
         }
       }

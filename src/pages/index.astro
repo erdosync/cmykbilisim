@@ -37,12 +37,12 @@ const examples = [
           <h2 id="cats-h">Ürün grupları</h2>
           <p>Yazıcınızın ihtiyaç duyduğu sarf malzemesini gruba göre inceleyin.</p>
         </div>
-        <a class="btn btn-line" href="/urunler">Tüm ürünler</a>
+        <a class="btn btn-line" href="/urunler/">Tüm ürünler</a>
       </div>
       <ul class="cat-list">
         {categories.map((c) => (
           <li>
-            <a href={`/kategori/${c.slug}`} class="cat">
+            <a href={`/kategori/${c.slug}/`} class="cat">
               <span class="cat-art"><ProductArt category={c.slug} color="siyah" /></span>
               <span class="cat-text">
                 <span class="cat-name">{c.name}</span>
@@ -80,7 +80,7 @@ const examples = [
       <div class="wrap">
         <div class="section-head">
           <h2 id="feat-h">Sık sorulan ürünler</h2>
-          <a class="btn btn-line" href="/urunler">Tüm ürünler</a>
+          <a class="btn btn-line" href="/urunler/">Tüm ürünler</a>
         </div>
         <div class="grid-products">
           {featured.map((p) => <ProductCard product={p} />)}

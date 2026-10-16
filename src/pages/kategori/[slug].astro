@@ -14,7 +14,7 @@ const products = productsInCategory(category.slug);
 <Base title={category.name} description={`${category.name}: ${category.summary} CMYK Bilişim, Ankara.`}>
   <div class="wrap">
     <header class="page-head">
-      <ol class="crumbs"><li><a href="/">Ana sayfa</a></li><li><a href="/urunler">Ürünler</a></li><li>{category.name}</li></ol>
+      <ol class="crumbs"><li><a href="/">Ana sayfa</a></li><li><a href="/urunler/">Ürünler</a></li><li>{category.name}</li></ol>
       <h1>{category.name}</h1>
       <p>{category.summary}</p>
       {category.subcategories && (

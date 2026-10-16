@@ -10,7 +10,7 @@ const { slug, name, count } = Astro.props;
 const logo = brandLogo(slug);
 ---
 
-<a class="tile" href={`/marka/${slug}`}>
+<a class="tile" href={`/marka/${slug}/`}>
   <span class="logo">
     {logo ? <img src={logo} alt={name} loading="lazy" /> : <span class="word">{name}</span>}
   </span>

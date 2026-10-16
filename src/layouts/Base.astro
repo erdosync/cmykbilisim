@@ -9,41 +9,74 @@ interface Props {
   title?: string;
   description?: string;
   waMessage?: string;
+  /** Paylaşım görseli (site köküne göre yol); verilmezse /og.png */
+  image?: string;
+  noindex?: boolean;
 }
-const { title, description = `${SITE.name}: ${SITE.tagline}. HP, Canon, Brother, Epson, Lexmark ve daha fazlası. Ankara.`, waMessage } =
-  Astro.props;
+const {
+  title,
+  description = `${SITE.name}: ${SITE.tagline}. HP, Canon, Brother, Epson, Lexmark ve daha fazlası. Ankara.`,
+  waMessage,
+  image = '/og.png',
+  noindex = false,
+} = Astro.props;
 const fullTitle = title ? `${title} | ${SITE.name}` : `${SITE.name} | Toner, Kartuş ve Yazıcı Sarf Malzemeleri`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const path = Astro.url.pathname;
 
 const NAV = [
-  { href: '/urunler', label: 'Ürünler' },
-  { href: '/markalar', label: 'Markalar' },
-  { href: '/hakkimizda', label: 'Hakkımızda' },
-  { href: '/iletisim', label: 'İletişim' },
+  { href: '/urunler/', label: 'Ürünler' },
+  { href: '/markalar/', label: 'Markalar' },
+  { href: '/hakkimizda/', label: 'Hakkımızda' },
+  { href: '/iletisim/', label: 'İletişim' },
 ];
-const isActive = (href: string) => path === href || path.startsWith(`${href}/`);
+const isActive = (href: string) => path.startsWith(href);
 
 const footerCats = CATEGORIES;
 const footerBrands = brandsWithCounts().slice(0, 8);
 const wa = whatsappLink(waMessage ?? 'Merhaba, ürünleriniz hakkında bilgi almak istiyorum.');
 
+const siteUrl = new URL('/', Astro.site).toString();
+const ogImage = new URL(image, Astro.site).toString();
+// Marka sorgularında site adı ve işletme bilgisi için: WebSite + Store (LocalBusiness)
 const ld = {
   '@context': 'https://schema.org',
-  '@type': 'Store',
-  name: SITE.name,
-  legalName: SITE.legalName,
-  url: Astro.site?.toString(),
-  logo: new URL('/logo.svg', Astro.site).toString(),
-  telephone: '+903123908041',
-  email: SITE.email,
-  address: {
-    '@type': 'PostalAddress',
-    streetAddress: SITE.address,
-    addressLocality: 'Çankaya',
-    addressRegion: 'Ankara',
-    addressCountry: 'TR',
-  },
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': `${siteUrl}#website`,
+      url: siteUrl,
+      name: SITE.name,
+      alternateName: ['CMYK BİLİŞİM', 'CMYK Bilisim', 'cmykbilisim'],
+      inLanguage: 'tr-TR',
+      publisher: { '@id': `${siteUrl}#business` },
+    },
+    {
+      '@type': 'Store',
+      '@id': `${siteUrl}#business`,
+      name: SITE.name,
+      alternateName: 'CMYK BİLİŞİM',
+      legalName: SITE.legalName,
+      description: `${SITE.tagline}. Orijinal ve muadil toner, kartuş, drum ve şerit.`,
+      url: siteUrl,
+      logo: new URL('/logo.png', Astro.site).toString(),
+      image: new URL('/og.png', Astro.site).toString(),
+      telephone: '+903123908041',
+      email: SITE.email,
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: SITE.address,
+        addressLocality: 'Çankaya',
+        addressRegion: 'Ankara',
+        addressCountry: 'TR',
+      },
+      areaServed: { '@type': 'City', name: 'Ankara' },
+      contactPoint: [
+        { '@type': 'ContactPoint', telephone: '+903123908041', contactType: 'customer service', availableLanguage: 'Turkish' },
+        { '@type': 'ContactPoint', telephone: '+905336149819', contactType: 'sales', availableLanguage: 'Turkish' },
+      ],
+    },
+  ],
 };
 ---
 
@@ -54,8 +87,12 @@ const ld = {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
+    {!noindex && <link rel="canonical" href={canonical} />}
+    {noindex && <meta name="robots" content="noindex, follow" />}
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <meta name="theme-color" content="#ffffff" />
     <meta name="google-site-verification" content="CCDVdIotjhSTDYoh4KORXHhRTAe01TM5atl-ZoKrBHI" />
@@ -65,6 +102,12 @@ const ld = {
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:alt" content={title ?? SITE.name} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
     <script type="application/ld+json" set:html={JSON.stringify(ld)} />
     <slot name="head" />
   </head>
@@ -107,11 +150,11 @@ const ld = {
         </div>
         <nav aria-label="Kategoriler">
           <h2>Kategoriler</h2>
-          <ul>{footerCats.map((c) => <li><a href={`/kategori/${c.slug}`}>{c.name}</a></li>)}</ul>
+          <ul>{footerCats.map((c) => <li><a href={`/kategori/${c.slug}/`}>{c.name}</a></li>)}</ul>
         </nav>
         <nav aria-label="Markalar">
           <h2>Markalar</h2>
-          <ul>{footerBrands.map((b) => <li><a href={`/marka/${b.slug}`}>{b.name}</a></li>)}</ul>
+          <ul>{footerBrands.map((b) => <li><a href={`/marka/${b.slug}/`}>{b.name}</a></li>)}</ul>
         </nav>
         <div>
           <h2>İletişim</h2>

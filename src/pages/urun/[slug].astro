@@ -46,15 +46,26 @@ const ld = {
   description: p.description,
   ...(photo ? { image: new URL(photo, Astro.site).toString() } : {}),
 };
+const crumbs = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    ['Ana sayfa', '/'],
+    [categoryName(p.category), `/kategori/${p.category}/`],
+    [brand, `/marka/${p.brand}/`],
+    [p.code, `/urun/${p.slug}/`],
+  ].map(([name, path], i) => ({ '@type': 'ListItem', position: i + 1, name, item: new URL(path, Astro.site).toString() })),
+};
 ---
 
-<Base title={p.name} description={description} waMessage={ask}>
+<Base title={p.name} description={description} waMessage={ask} image={photo ?? undefined}>
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(ld)} />
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(crumbs)} />
   <div class="wrap">
     <ol class="crumbs top">
       <li><a href="/">Ana sayfa</a></li>
-      <li><a href={`/kategori/${p.category}`}>{categoryName(p.category)}</a></li>
-      <li><a href={`/marka/${p.brand}`}>{brand}</a></li>
+      <li><a href={`/kategori/${p.category}/`}>{categoryName(p.category)}</a></li>
+      <li><a href={`/marka/${p.brand}/`}>{brand}</a></li>
       <li aria-current="page">{p.code}</li>
     </ol>
 
@@ -65,7 +76,7 @@ const ld = {
       </div>
 
       <div class="info">
-        <a class="brand" href={`/marka/${p.brand}`}>
+        <a class="brand" href={`/marka/${p.brand}/`}>
           {logo ? <img src={logo} alt={brand} /> : brand}
         </a>
         <h1>{p.name}</h1>
